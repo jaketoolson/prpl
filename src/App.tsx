@@ -162,7 +162,8 @@ function IndividualProfileCardComponent() {
   });
   const updateStatus = (status: statusEnum) => {
     setState((s: any) => {
-      return [...s, (s[index].status = status)];
+      s[index].status = status;
+      return [...s];
     });
   };
   return (
@@ -187,7 +188,7 @@ function ProfileListComponent() {
       <FlatList
         data={team}
         renderItem={renderProfileCard}
-        keyExtractor={(item: any) => (item.id ? item.id.toString() : null)}
+        keyExtractor={(item: any) => item.id.toString()}
       />
     </View>
   );
