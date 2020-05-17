@@ -155,13 +155,15 @@ function IndividualProfileCardComponent() {
   const route = useRoute();
   const navigation = useNavigation();
   const {user}: any = route.params;
-  const index: number = state.findIndex(({id}: any) => id === user.id);
+  const index: number = state.findIndex(
+    ({id}: UserModelInterface) => id === user.id,
+  );
   const foundUser: UserModelInterface = state[index];
   navigation.setOptions({
     title: foundUser.name,
   });
   const updateStatus = (status: statusEnum) => {
-    setState((s: any) => {
+    setState((s: UserModelInterface[]) => {
       s[index].status = status;
       return [...s];
     });
@@ -181,14 +183,12 @@ function IndividualProfileCardComponent() {
 
 function ProfileListComponent() {
   const [team]: any = useContext(TeamContext);
-  console.log('Team');
-  console.log(team);
   return (
     <View style={styles.page}>
       <FlatList
         data={team}
         renderItem={renderProfileCard}
-        keyExtractor={(item: any) => item.id.toString()}
+        keyExtractor={(item: UserModelInterface) => item.id.toString()}
       />
     </View>
   );
