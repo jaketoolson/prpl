@@ -173,9 +173,21 @@ function IndividualProfileCardComponent() {
       <View style={styles.individualProfileCard}>
         <Text>{foundUser.name}</Text>
         <Text>{statusEnum[foundUser.status]}</Text>
-        <Button onPress={() => updateStatus(statusEnum.DANGER)}>Danger</Button>
-        <Button onPress={() => updateStatus(statusEnum.WARNING)}>Warning</Button>
-        <Button onPress={() => updateStatus(statusEnum.OK)}>Ok</Button>
+        <Button
+          disabled={foundUser.status === statusEnum.DANGER}
+          onPress={() => updateStatus(statusEnum.DANGER)}>
+          Danger
+        </Button>
+        <Button
+          disabled={foundUser.status === statusEnum.WARNING}
+          onPress={() => updateStatus(statusEnum.WARNING)}>
+          Warning
+        </Button>
+        <Button
+          disabled={foundUser.status === statusEnum.OK}
+          onPress={() => updateStatus(statusEnum.OK)}>
+          Ok
+        </Button>
       </View>
     </View>
   );
