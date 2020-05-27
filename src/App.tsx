@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   Animated,
   StyleSheet,
@@ -68,12 +68,15 @@ enum statusEnum {
   DANGER = 0,
   WARNING = 1,
   OK = 3,
+  NEUTRAL = 4,
 }
 
 const statusColorMap = new Map<statusEnum, string>([
   [statusEnum.DANGER, 'red'],
   [statusEnum.WARNING, 'orange'],
   [statusEnum.OK, 'green'],
+  [statusEnum.NEUTRAL, 'gray'],
+  
 ]);
 
 let DATA: UserModelInterface[] = [
@@ -81,7 +84,7 @@ let DATA: UserModelInterface[] = [
     id: 1,
     image: require('./../assets/images/people/bert.jpg'),
     name: 'Bert',
-    status: statusEnum.WARNING,
+    status: statusEnum.NEUTRAL,
   },
   {
     id: 2,
@@ -173,21 +176,10 @@ function IndividualProfileCardComponent() {
       <View style={styles.individualProfileCard}>
         <Text>{foundUser.name}</Text>
         <Text>{statusEnum[foundUser.status]}</Text>
-        <Button
-          disabled={foundUser.status === statusEnum.DANGER}
-          onPress={() => updateStatus(statusEnum.DANGER)}>
-          Danger
-        </Button>
-        <Button
-          disabled={foundUser.status === statusEnum.WARNING}
-          onPress={() => updateStatus(statusEnum.WARNING)}>
-          Warning
-        </Button>
-        <Button
-          disabled={foundUser.status === statusEnum.OK}
-          onPress={() => updateStatus(statusEnum.OK)}>
-          Ok
-        </Button>
+        <Button disabled={foundUser.status === statusEnum.NEUTRAL} onPress={() => updateStatus(statusEnum.NEUTRAL)}>Neutral</Button>
+        <Button disabled={foundUser.status === statusEnum.DANGER} onPress={() => updateStatus(statusEnum.DANGER)}>Danger</Button>
+        <Button disabled={foundUser.status === statusEnum.WARNING} onPress={() => updateStatus(statusEnum.WARNING)}>Warning</Button>
+        <Button disabled={foundUser.status === statusEnum.OK} onPress={() => updateStatus(statusEnum.OK)}>Ok</Button>
       </View>
     </View>
   );
@@ -195,10 +187,19 @@ function IndividualProfileCardComponent() {
 
 function ProfileListComponent() {
   const [team]: any = useContext(TeamContext);
+  const [state, setState] = useState(team);
+  let data = state.filter((i:any) => i.status === statusEnum.OK);
+  // Need to use this in order to create a list of filterable items.
+  // This list will use the general state each time the state is changed?
+  useEffect(() => {
+    return () => {
+      setState(team);
+    };
+  });
   return (
     <View style={styles.page}>
       <FlatList
-        data={team}
+        data={state}
         renderItem={renderProfileCard}
         keyExtractor={(item: UserModelInterface) => item.id.toString()}
       />
@@ -216,10 +217,7 @@ const App = () => {
             <TeamContext.Provider value={[state, setState]}>
               <Stack.Navigator initialRouteName="Home">
                 <Stack.Screen name="Team" component={ProfileListComponent} />
-                <Stack.Screen
-                  name="User"
-                  component={IndividualProfileCardComponent}
-                />
+                <Stack.Screen name="User" component={IndividualProfileCardComponent} />
               </Stack.Navigator>
             </TeamContext.Provider>
           </Animated.View>
