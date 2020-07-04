@@ -1,0 +1,54 @@
+{
+  "name": "prpl.server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc-watch",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "celebrate": "^12.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "event-dispatch": "^0.4.1",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "lodash": "^4.17.13",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "postmark": "^2.5.3",
+    "reflect-metadata": "^0.1.13",
+    "slugify": "^1.4.0",
+    "typeorm": "^0.2.25",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
+    "@types/hapi__joi": "^17.1.2",
+    "@types/helmet": "0.0.47",
+    "@types/lodash": "^4.14.118",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^14.0.6",
+    "nodemon": "^2.0.4",
+    "tsc-watch": "^4.2.8",
+    "typescript": "^3.9.3"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "app/*",
+      "build/*",
+      "build/app",
+      "build/app/server/js"
+    ],
+    "ignore": [
+      "node_modules"
+    ]
+  },
+  "author": "Jake Toolson",
+  "license": "ISC"
+}

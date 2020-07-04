@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  prpl_db:
+    hostname: mysql
+    container_name: prpl_mysql
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'prpl'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+    networks:
+      - prpl_network
+    ports:
+      - 3307:3306
+
+  prpl_node:
+    hostname: app
+    container_name: prpl_node
+    build:
+      context: ./infrastructure
+      dockerfile: node.dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./server/build:/var/www
+    depends_on:
+      - prpl_db
+    networks:
+      - prpl_network
+
+  prpl_nginx:
+    hostname: nginx
+    container_name: prpl_nginx
+    build:
+      context: ./infrastructure/
+      dockerfile: nginx.dockerfile
+    working_dir: /var/www
+    ports:
+      - 80:80
+    volumes:
+      - ./client/build:/var/www/
+    depends_on:
+      - prpl_node
+      - prpl_db
+    networks:
+      - prpl_network
+
+volumes:
+  dbdata:
+  esdata:
+
+networks:
+  prpl_network:
