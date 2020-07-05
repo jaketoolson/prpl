@@ -43,7 +43,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./client/build:/var/www/
+      - ./client/build:/var/www
     depends_on:
       - prpl_node
       - prpl_db

@@ -37,7 +37,7 @@ docker_menu () {
 }
 
 PS3="${RESET}${PINK}Select an option and press enter: ${RESET}"
-OPTIONS=("Start Containers" "Stop Containers" "Install Server NPM Packages" "Connect to a Container" "Copy Server Files" "Cancel");
+OPTIONS=("Start Containers" "Stop Containers" "Connect to a Container" "Copy Server & Client Files" "Cancel");
 select opt in "${OPTIONS[@]}"; do
     case "$REPLY" in
         1 )
@@ -55,16 +55,13 @@ select opt in "${OPTIONS[@]}"; do
             break
             ;;
         4 )
-            docker exec -it prpl_node bash
-            break
-            ;;
-        5 )
             echo "${RED}Copying Server Files...${RESET}"
             cp server/package.json server/ormconfig.js server/package-lock.json server/.env server/build/
+            cp client/index.html client/build/
             echo "${GREEN}Done${GREEN}"
             break
             ;;
-        6 )
+        5 )
             echo "${RED}Canceled${RESET}"
             break
             ;;
