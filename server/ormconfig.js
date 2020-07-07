@@ -9,15 +9,15 @@ module.exports = {
   "synchronize": false,
   "logging": true,
   "entities": [
-    "app/models/**/*.*"
+    "models/**/*.*"
   ],
   "migrations": [
-    "app/migrations/**/*.*"
+    "migrations/**/*.*"
   ],
   "subscribers": [
-    "app/subscribers/**/*.*"
+    "subscribers/**/*.*"
   ],
   "cli": {
-    "migrationsDir": "app/migrations"
+    "migrationsDir": "migrations"
   }
 }

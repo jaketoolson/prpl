@@ -1,19 +1,11 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn
 } from "typeorm";
-import Encrypter from "../services/encrypter";
+import {BaseModel} from "./BaseModel";
 
 @Entity('users')
-export class User {
-
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends BaseModel {
   @Column({type: 'varchar', unique: true})
   username: string;
 
@@ -25,15 +17,4 @@ export class User {
 
   @Column({type: 'varchar'})
   password: string;
-
-  @CreateDateColumn({type: "datetime", update: true, default: () => 'NOW()'})
-  created_at: Date;
-
-  @UpdateDateColumn({type: "datetime", nullable: true, update: true})
-  updated_at?: Date
-
-  @BeforeInsert()
-  async beforeInsert(): Promise<void> {
-    this.password = await Encrypter.hash(this.password)
-  }
 }
